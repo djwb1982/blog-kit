@@ -1,0 +1,5 @@
+agkit:
+  uploader:
+    fileRoot: 'D:/SDE/dev_java8/data/blog-kit/uploader/src/main/webapp/'
+    pathFix: 'uploader'
+    allowUrl: 'http://localhost:8084'

@@ -1,0 +1,25 @@
+server:
+  port: 8084
+
+spring:
+  datasource:
+    password: 123456
+    driverClassName: com.mysql.cj.jdbc.Driver
+    name: my-blog-datasource
+    url: jdbc:mysql://192.168.10.157:3306/my_blog_db?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false
+    hikari:
+      connection-timeout: 30000
+      auto-commit: true
+      max-lifetime: 1800000
+      pool-name: hikariCP
+      minimum-idle: 5
+      connection-test-query: SELECT 1
+      maximum-pool-size: 15
+      idle-timeout: 30000
+    username: root
+  thymeleaf:
+    cache: false
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+
+
