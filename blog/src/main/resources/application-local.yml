@@ -1,5 +1,5 @@
 agkit:
   config:
-    webPath: http://localhost:8083/
-    pathFix: http://localhost:8083/
-    fileRoot: http://localhost:8083/
+    webPath: "http://localhost:8083"
+    pathFix: "http://localhost:8083"
+    fileRoot: "http://localhost:8083"

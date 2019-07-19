@@ -20,10 +20,11 @@ $(function () {
         imageUpload: true,
         imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"], //图片上传格式
         imageUploadURL: webPath+"/admin/blogs/md/uploadfile",
+        crossDomainUpload: true,
         onload: function (obj) { //上传成功之后的回调
         }
     });
-
+console.log(webPath+"/admin/blogs/md/uploadfile");
     new AjaxUpload('#uploadCoverImage', {
         action: webPath+'/admin/upload/file',
         name: 'file',

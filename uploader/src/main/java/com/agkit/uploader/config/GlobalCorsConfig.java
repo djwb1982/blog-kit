@@ -21,7 +21,9 @@ public class GlobalCorsConfig {
         //是否发送 Cookie
         config.setAllowCredentials(true);
         //放行哪些请求方式
+        config.addAllowedHeader("*");
         config.addAllowedMethod("*");
+        config.setAllowCredentials(true);
         config.setMaxAge(36000L);
         //2. 添加映射路径
         UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();

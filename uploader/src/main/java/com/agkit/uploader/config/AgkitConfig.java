@@ -17,7 +17,7 @@ import javax.annotation.PostConstruct;
 @Data
 @Component
 @Configuration
-@ConfigurationProperties(prefix = "agkit.uploader")
+@ConfigurationProperties(prefix = "agkit.config")
 public class AgkitConfig {
     @Value("fileRoot")
     private  String fileRoot;

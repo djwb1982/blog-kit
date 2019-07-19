@@ -180,43 +180,6 @@ public class BlogController {
         }
     }
 
-    @PostMapping("/blogs/md/uploadfile")
-    public void uploadFileByEditormd(HttpServletRequest request,
-                                     HttpServletResponse response,
-                                     @RequestParam(name = "editormd-image-file", required = true)
-                                             MultipartFile file) throws IOException, URISyntaxException {
-        String fileName = file.getOriginalFilename();
-        String suffixName = fileName.substring(fileName.lastIndexOf("."));
-        //生成文件名称通用方法
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-        Random r = new Random();
-        StringBuilder tempName = new StringBuilder();
-        tempName.append(sdf.format(new Date())).append(r.nextInt(100)).append(suffixName);
-        String newFileName = tempName.toString();
-        //创建文件
-        File destFile = new File(Constants.FILE_UPLOAD_DIC + newFileName);
-        String fileUrl = MyBlogUtils.getHost(new URI(request.getRequestURL() + "")) + "/upload/" + newFileName;
-        File fileDirectory = new File(Constants.FILE_UPLOAD_DIC);
-        try {
-            if (!fileDirectory.exists()) {
-                if (!fileDirectory.mkdir()) {
-                    throw new IOException("文件夹创建失败,路径为：" + fileDirectory);
-                }
-            }
-            file.transferTo(destFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            request.setCharacterEncoding("utf-8");
-            response.setHeader("Content-Type", "text/html");
-            response.getWriter().write("{\"success\": 1, \"message\":\"success\",\"url\":\"" + fileUrl + "\"}");
-        } catch (UnsupportedEncodingException e) {
-            response.getWriter().write("{\"success\":0}");
-        } catch (IOException e) {
-            response.getWriter().write("{\"success\":0}");
-        }
-    }
 
     @PostMapping("/blogs/delete")
     @ResponseBody
