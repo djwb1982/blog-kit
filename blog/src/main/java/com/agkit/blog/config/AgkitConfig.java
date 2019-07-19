@@ -23,4 +23,6 @@ public class AgkitConfig {
     private  String pathFix;
     @Value("webPath")
     private  String webPath;
+    @Value("ctx")
+    private  String ctx;
 }

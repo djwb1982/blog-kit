@@ -8,7 +8,7 @@ spring:
     password: 123456
     driverClassName: com.mysql.cj.jdbc.Driver
     name: my-blog-datasource
-    url: jdbc:mysql://192.168.10.157:3306/my_blog_db?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false
+    url: jdbc:mysql://192.168.5.90:3306/my_blog_db?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false
     hikari:
       connection-timeout: 30000
       auto-commit: true

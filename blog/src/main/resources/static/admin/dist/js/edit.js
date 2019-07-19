@@ -21,11 +21,37 @@ $(function () {
         imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"], //图片上传格式
         imageUploadURL: webPath+"/admin/blogs/md/uploadfile",
         crossDomainUpload: true,
+        uploadCallbackURL:ctx+"/admin/blogs/md/uploadcallback",
         onload: function (obj) { //上传成功之后的回调
+        },
+    });
+
+    $('#uploadCoverImage').fileupload({
+        url: webPath+'/admin/upload/file',
+        type:"POST",
+        dataType:"json",
+        autoUpload : true,
+        acceptFileTypes: /(\.|\/)(jpe?g|png)$/i,
+        //跨域
+        forceIframeTransport: true,
+        formData: {
+            action:"UploadVMKImagePath",
+            param:JSON.stringify({
+                projectId:12343,
+                fileType:"任务日志图片"
+            })
+        },
+        done: function (e, data) {
+            console.log(e);
+            console.log(data);//data里面包含了服务端返回的字段
+        },
+        fail:function(e,data){
+            console.log("上传失败："+data.errorThrown);
         }
     });
-console.log(webPath+"/admin/blogs/md/uploadfile");
-    new AjaxUpload('#uploadCoverImage', {
+
+
+   /* new AjaxUpload('#uploadCoverImage', {
         action: webPath+'/admin/upload/file',
         name: 'file',
         autoSubmit: true,
@@ -45,7 +71,7 @@ console.log(webPath+"/admin/blogs/md/uploadfile");
                 alert("error");
             }
         }
-    });
+    });*/
 });
 
 $('#confirmButton').click(function () {

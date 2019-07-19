@@ -5,13 +5,11 @@ import com.agkit.blog.util.MyBlogUtils;
 import com.agkit.blog.util.Result;
 import com.agkit.blog.util.ResultGenerator;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -52,6 +50,17 @@ public class UploadController {
         Result result = ResultGenerator.genSuccessResult();
         result.setData(MyBlogUtils.getHost(new URI(httpServletRequest.getRequestURL() + "")) + "/upload/" + newFileName);
         return result;
+    }
+
+
+    @GetMapping("/blogs/md/uploadcallback")
+    public void crossUploadFileByEditormd(HttpServletRequest request,
+                                     HttpServletResponse response)throws IOException, URISyntaxException {
+        String success=request.getParameter("success");
+        String fileUrl=request.getParameter("fileUrl");
+        String message=request.getParameter("message");
+        String repStr="{\"success\": "+success+", \"message\":\""+message+"\",\"url\":\"" + fileUrl + "\"}";
+        response.getWriter().write(repStr);
     }
 
 }

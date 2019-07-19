@@ -36,6 +36,7 @@ public class ThymeleafConfig implements ApplicationContextAware {
         if (viewResolver != null) {
             Map<String, Object> vars = new HashMap<>();
             vars.put("webPath", agkitConfig.getWebPath());
+            vars.put("ctx", agkitConfig.getCtx());
             viewResolver.setStaticVariables(vars);
         }
     }

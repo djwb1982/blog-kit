@@ -568,6 +568,7 @@
                                                 
                         return;
                 }
+                console.log(this._input);
                 
                 var doc = iframe.contentDocument ? iframe.contentDocument : window.frames[iframe.id].document;
                 

@@ -28,11 +28,11 @@ public class UploadController {
     private AgkitConfig agkitConfig;
 
     @PostMapping({"/upload/file"})
-    @CrossOrigin
     @ResponseBody
     public Result upload(HttpServletRequest httpServletRequest, @RequestParam("file") MultipartFile file) throws URISyntaxException {
         String fileName = file.getOriginalFilename();
         String suffixName = fileName.substring(fileName.lastIndexOf("."));
+        String callbackfile = httpServletRequest.getParameter("callbackfile");//客户端请求参数
         //生成文件名称通用方法
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
         Random r = new Random();
@@ -58,10 +58,10 @@ public class UploadController {
     }
 
     @PostMapping("/blogs/md/uploadfile")
-    public void uploadFileByEditormd(HttpServletRequest request,
+    public void crossUploadFileByEditormd(HttpServletRequest request,
                                      HttpServletResponse response,
-                                     @RequestParam(name = "editormd-image-file", required = true)
-                                             MultipartFile file) throws IOException, URISyntaxException {
+                                     @RequestParam(name = "callback") String callback,
+                                     @RequestParam(name = "editormd-image-file", required = true) MultipartFile file) throws IOException, URISyntaxException {
         String fileName = file.getOriginalFilename();
         String suffixName = fileName.substring(fileName.lastIndexOf("."));
         //生成文件名称通用方法
@@ -87,7 +87,10 @@ public class UploadController {
         try {
             request.setCharacterEncoding("utf-8");
             response.setHeader("Content-Type", "text/html");
-            response.getWriter().write("{\"success\": 1, \"message\":\"success\",\"url\":\"" + fileUrl + "\"}");
+            //String repStr="{\"success\": 1, \"message\":\"success\",\"url\":\"" + fileUrl + "\"}";
+            String repStr=callback+"?success=1&message=success&fileUrl="+fileUrl;
+            response.getWriter().write(repStr);
+            response.sendRedirect(repStr);
         } catch (UnsupportedEncodingException e) {
             response.getWriter().write("{\"success\":0}");
         } catch (IOException e) {
