@@ -14,24 +14,54 @@ import javax.annotation.PostConstruct;
  * @author: king djwb1982@163.com
  * @create: 2019-05-21 23:01
  **/
-@Data
 @Component
 @Configuration
 @ConfigurationProperties(prefix = "agkit.config")
 public class AgkitConfig {
-    @Value("fileRoot")
-    private  String fileRoot;
-    @Value("fileRoot")
-    private  String pathFix;
-    @Value("webPath")
-    private  String webPath;
-    @Value("allowUrl")
-    private String allowUrl;
 
-    private static String staticFileRoot;
+    private static  String fileRoot;
+    private static  String pathFix;
+    private static  String webPath;
+    private static String allowUrl;
+
+    public static String getFileRoot() {
+        return fileRoot;
+    }
+
+    @Value("fileRoot")
+    public void setFileRoot(String fileRoot) {
+        AgkitConfig.fileRoot = fileRoot;
+    }
+
+    public static String getPathFix() {
+        return pathFix;
+    }
+
+    @Value("pathFix")
+    public void setPathFix(String pathFix) {
+        AgkitConfig.pathFix = pathFix;
+    }
+
+    public static String getWebPath() {
+        return webPath;
+    }
+
+    @Value("webPath")
+    public void setWebPath(String webPath) {
+        AgkitConfig.webPath = webPath;
+    }
+
+    public static String getAllowUrl() {
+        return allowUrl;
+    }
+
+    @Value("allowUrl")
+    public void setAllowUrl(String allowUrl) {
+        AgkitConfig.allowUrl = allowUrl;
+    }
+/*   private static String staticFileRoot;
     private static String staticPathFix;
     private static String staticWebPath;
-
     private static String staticAllowUrl;
 
     @PostConstruct
@@ -57,5 +87,5 @@ public class AgkitConfig {
     public static String getStaticAllowUrl() {
         return staticAllowUrl;
     }
-
+*/
 }

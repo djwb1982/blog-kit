@@ -92,6 +92,8 @@
                             <form onsubmit="return false;">
                                 <div class="form-group">
                                     <div class="col-sm-4">
+                                        <input name="logo" id="logo" type="hidden" value=""/>
+                                        <div id="fileQueue"></div>
                                         <th:block th:if="${null == blog}">
                                             <img id="blogCoverImage" src="/admin/dist/img/img-upload.png"
                                                  style="height: 64px;width: 64px;">

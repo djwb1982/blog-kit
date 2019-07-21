@@ -38,12 +38,23 @@
             <artifactId>commonmark</artifactId>
             <version>0.8.0</version>
         </dependency>
+        <!-- Gson -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.2.4</version>
+		</dependency>
         <!-- commonmark table -->
         <dependency>
             <groupId>com.atlassian.commonmark</groupId>
             <artifactId>commonmark-ext-gfm-tables</artifactId>
             <version>0.8.0</version>
         </dependency>
+         <dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-all</artifactId>
+			<version>4.1.1</version>
+		</dependency>
         <!-- log -->
 		<dependency>
 			<groupId>org.slf4j</groupId>

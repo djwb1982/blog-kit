@@ -72,6 +72,7 @@ $(function () {
             }
         }
     });*/
+   uploadImageLoadbyFileExt('uploadCoverImage','logo','blogCoverImage','fileQueue','course','*.jpg');
 });
 
 $('#confirmButton').click(function () {

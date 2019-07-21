@@ -1,12 +1,19 @@
 package com.agkit.uploader.controller;
 
 import com.agkit.uploader.config.AgkitConfig;
+import com.agkit.uploader.utils.FileUtil;
 import com.agkit.util.MyBlogUtils;
 import com.agkit.util.Result;
 import com.agkit.util.ResultGenerator;
+import com.google.gson.JsonObject;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -24,9 +31,8 @@ import java.util.Random;
 @Controller
 @RequestMapping("/admin")
 public class UploadController {
-    @Resource
-    private AgkitConfig agkitConfig;
 
+     private static Logger logger = Logger.getLogger(UploadController.class);
     @PostMapping({"/upload/file"})
     @ResponseBody
     public Result upload(HttpServletRequest httpServletRequest, @RequestParam("file") MultipartFile file) throws URISyntaxException {
@@ -39,9 +45,9 @@ public class UploadController {
         StringBuilder tempName = new StringBuilder();
         tempName.append(sdf.format(new Date())).append(r.nextInt(100)).append(suffixName);
         String newFileName = tempName.toString();
-        File fileDirectory = new File(agkitConfig.getFileRoot());
+        File fileDirectory = new File(AgkitConfig.getFileRoot());
         //创建文件
-        File destFile = new File(agkitConfig.getFileRoot() + "/" + agkitConfig.getPathFix() + "/" + newFileName);
+        File destFile = new File(AgkitConfig.getFileRoot() + "/" + AgkitConfig.getPathFix() + "/" + newFileName);
         try {
             if (!fileDirectory.exists()) {
                 if (!fileDirectory.mkdir()) {
@@ -53,7 +59,7 @@ public class UploadController {
             e.printStackTrace();
         }
         Result result = ResultGenerator.genSuccessResult();
-        result.setData(MyBlogUtils.getHost(new URI(httpServletRequest.getRequestURL() + "")) + "/" + agkitConfig.getPathFix() + "/" + newFileName);
+        result.setData(MyBlogUtils.getHost(new URI(httpServletRequest.getRequestURL() + "")) + "/" + AgkitConfig.getPathFix() + "/" + newFileName);
         return result;
     }
 
@@ -71,9 +77,9 @@ public class UploadController {
         tempName.append(sdf.format(new Date())).append(r.nextInt(100)).append(suffixName);
         String newFileName = tempName.toString();
         //创建文件
-        File destFile = new File(agkitConfig.getFileRoot() + "/" + agkitConfig.getPathFix() + "/" + newFileName);
-        String fileUrl = MyBlogUtils.getHost(new URI(request.getRequestURL() + "")) + "/" + agkitConfig.getPathFix() + "/" + newFileName;
-        File fileDirectory = new File(agkitConfig.getFileRoot() + "/" + agkitConfig.getPathFix() + "/");
+        File destFile = new File(AgkitConfig.getFileRoot() + "/" + AgkitConfig.getPathFix() + "/" + newFileName);
+        String fileUrl = MyBlogUtils.getHost(new URI(request.getRequestURL() + "")) + "/" + AgkitConfig.getPathFix() + "/" + newFileName;
+        File fileDirectory = new File(AgkitConfig.getFileRoot() + "/" + AgkitConfig.getPathFix() + "/");
         try {
             if (!fileDirectory.exists()) {
                 if (!fileDirectory.mkdir()) {
@@ -96,6 +102,29 @@ public class UploadController {
         } catch (IOException e) {
             response.getWriter().write("{\"success\":0}");
         }
+    }
+
+       /**
+     * swf使用上传文件
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/upload/goswf")
+    @ResponseBody
+    public String goswf(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+            MultipartFile imgFile = multipartRequest.getFile("fileupload");
+            String[] paths = FileUtil.getSavePathByRequest(request);
+            JsonObject json = FileUtil.saveImage(imgFile, paths);
+            logger.info("++++upload img return:" + json.get("url").getAsString());
+            return json.get("url").getAsString();
+        } catch (Exception e) {
+            logger.error("goswf error", e);
+        }
+        return null;
     }
 
 }
