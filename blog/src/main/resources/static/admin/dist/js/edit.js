@@ -26,32 +26,31 @@ $(function () {
         },
     });
 
-    $('#uploadCoverImage').fileupload({
-        url: webPath+'/admin/upload/file',
-        type:"POST",
-        dataType:"json",
-        autoUpload : true,
-        acceptFileTypes: /(\.|\/)(jpe?g|png)$/i,
-        //跨域
-        forceIframeTransport: true,
-        formData: {
-            action:"UploadVMKImagePath",
-            param:JSON.stringify({
-                projectId:12343,
-                fileType:"任务日志图片"
-            })
-        },
-        done: function (e, data) {
-            console.log(e);
-            console.log(data);//data里面包含了服务端返回的字段
-        },
-        fail:function(e,data){
-            console.log("上传失败："+data.errorThrown);
-        }
-    });
+    // $('#uploadCoverImage').fileupload({
+    //     url: webPath+'/admin/upload/file',
+    //     type:"POST",
+    //    dataType:"json",
+    //     autoUpload : true,
+    //     acceptFileTypes: /(\.|\/)(jpe?g|png)$/i,
+    //     //跨域
+    //     forceIframeTransport: true,
+    //     formData: {
+    //         action:"UploadVMKImagePath",
+    //         param:JSON.stringify({
+    //             projectId:12343,
+    //             fileType:"任务日志图片"
+    //         })
+    //     },
+    //     done: function (e, data) {
+    //         console.log(e);
+    //         console.log(data);//data里面包含了服务端返回的字段
+    //     },
+    //     fail:function(e,data){
+    //         console.log("上传失败："+data.errorThrown);
+    //     }
+    // });
 
-
-   /* new AjaxUpload('#uploadCoverImage', {
+    /*new AjaxUpload('#uploadCoverImage', {
         action: webPath+'/admin/upload/file',
         name: 'file',
         autoSubmit: true,

@@ -170,16 +170,17 @@ function getSelectedRows() {
 
 function uploadImageLoadbyFileExt(fileupload, inputImage, showId, fileQueue, param,ext , callback) {
     $("#" + fileupload).uploadify({
-        'uploader': ctx+'/static/common/uploadify/uploadify.swf', //上传控件的主体文件，flash控件  默认值='uploadify.swf'
-        'script': webPath + '/admin/upload/file',
+        'swf': ctx+'/admin/plugins/uploadify/uploadify.swf', //上传控件的主体文件，flash控件  默认值='uploadify.swf'
+        'uploader': webPath + '/admin/upload/file',
+        'buttonClass':'btn btn-info',
         'scriptData': {"base": "mavendemo", "param": param},
         'queueID': fileQueue, //文件队列ID
-        'fileDataName': 'fileupload', //您的文件在上传服务器脚本阵列的名称
+        'fileObjName': 'file', //您的文件在上传服务器脚本阵列的名称
         'auto': true, //选定文件后是否自动上传
         'multi': false, //是否允许同时上传多文件
         'hideButton': false,//上传按钮的隐藏
-        'buttonText': 'Browse',//默认按钮的名字
-        'buttonImg': baselocation+'/static/common/uploadify/liulan.png',//使用图片按钮，设定图片的路径即可
+        'buttonText': '<i class="fa fa-picture-o"></i>&nbsp;上传封面',//默认按钮的名字
+        'buttonImg': ctx+'/admin/plugins/uploadify/liulan.png',//使用图片按钮，设定图片的路径即可
         'width': 105,
         'simUploadLimit': 3,//多文件上传时，同时上传文件数目限制
         'sizeLimit': 51200000,//控制上传文件的大小
@@ -187,26 +188,24 @@ function uploadImageLoadbyFileExt(fileupload, inputImage, showId, fileQueue, par
         'fileDesc': '支持格式:'+ext,//出现在上传对话框中的文件类型描述
         'fileExt': ext,//支持的格式，启用本项时需同时声明fileDesc
         'folder': '/upload',//您想将文件保存到的路径
-        'cancelImg': baselocation+'/static/common/uploadify/cancel.png',
-        onSelect: function (event, queueID, fileObj) {
-            fileuploadIndex = 1;
+        'cancelImg': ctx+'/admin/plugins/uploadify/uploadify-cancel.png',
+        onSelect: function (fileObj) {
             $("#" + fileQueue).html("");
             if (fileObj.size > 51200000) {
                 alert('文件太大最大限制51200kb');
                 return false;
             }
         },
-        onComplete: function (event, queueID, fileObj, response, data) {
-            if (callback && callback != null && callback != 'undefined') {
-                callback(event, queueID, fileObj, response, data);
-            } else {
-                $("#" + inputImage).val(response);
-                $("#" + showId).attr('src', staticImageServer + response);
-                $("#" + showId).show();
-            }
+        onUploadSuccess: function (fileObj,data, response) {
+               // $("#" + inputImage).val(data.data);
+                var obj = JSON.parse(data);
+                console.log(obj.data);
+                console.log($("#" + showId));
+                $("#" + showId).attr('src', obj.data);
+               // $("#" + showId).show();
         },
         onError: function (event, queueID, fileObj, errorObj) {
-            $("#" + fileQueue).html("<br/><font color='red'>" + fileObj.name + "上传失败</font>");
+           console.log(event);
         }
     });
 }
