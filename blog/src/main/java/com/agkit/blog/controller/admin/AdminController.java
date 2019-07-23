@@ -1,7 +1,9 @@
 package com.agkit.blog.controller.admin;
 
+import com.agkit.blog.config.AgkitConfig;
 import com.agkit.blog.entity.AdminUser;
 import com.agkit.blog.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +28,8 @@ public class AdminController {
     private TagService tagService;
     @Resource
     private CommentService commentService;
-
-
+    @Resource
+    private AgkitConfig agkitConfig;
     @GetMapping({"/login"})
     public String login() {
         return "admin/login";
@@ -75,7 +77,7 @@ public class AdminController {
             session.setAttribute("loginUserId", adminUser.getAdminUserId());
             //session过期时间设置为7200秒 即两小时
             //session.setMaxInactiveInterval(60 * 60 * 2);
-            return "redirect:/admin/index";
+            return "redirect:"+agkitConfig.getCtx()+"/admin/index";
         } else {
             session.setAttribute("errorMsg", "登陆失败");
             return "admin/login";

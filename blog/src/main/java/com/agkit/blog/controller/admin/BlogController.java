@@ -1,32 +1,18 @@
 package com.agkit.blog.controller.admin;
 
-import com.agkit.blog.config.Constants;
-import com.agkit.blog.config.AgkitConfig;
 import com.agkit.blog.entity.Blog;
-import com.agkit.blog.util.MyBlogUtils;
+import com.agkit.blog.service.BlogService;
+import com.agkit.blog.service.CategoryService;
 import com.agkit.blog.util.PageQueryUtil;
 import com.agkit.blog.util.Result;
 import com.agkit.blog.util.ResultGenerator;
-import com.agkit.blog.service.BlogService;
-import com.agkit.blog.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
-import java.util.Random;
 
 
 @Controller
@@ -37,8 +23,6 @@ public class BlogController {
     private BlogService blogService;
     @Resource
     private CategoryService categoryService;
-    @Autowired
-    private AgkitConfig agkitConfig;
 
     @GetMapping("/blogs/list")
     @ResponseBody

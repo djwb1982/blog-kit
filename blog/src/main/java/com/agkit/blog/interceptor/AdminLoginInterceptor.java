@@ -1,9 +1,11 @@
 package com.agkit.blog.interceptor;
 
+import com.agkit.blog.config.AgkitConfig;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,13 +16,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Component
 public class AdminLoginInterceptor implements HandlerInterceptor {
+    @Resource
+    private AgkitConfig agkitConfig;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         String uri = request.getRequestURI();
         if (uri.startsWith("/admin") && null == request.getSession().getAttribute("loginUser")) {
             request.getSession().setAttribute("errorMsg", "请重新登陆");
-            response.sendRedirect(request.getContextPath() + "/admin/login");
+            response.sendRedirect(agkitConfig.getCtx() + "/admin/login");
             return false;
         } else {
             request.getSession().removeAttribute("errorMsg");
