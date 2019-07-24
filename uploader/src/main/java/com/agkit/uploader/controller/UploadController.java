@@ -2,7 +2,6 @@ package com.agkit.uploader.controller;
 
 import com.agkit.uploader.config.AgkitConfig;
 import com.agkit.uploader.utils.FileUtil;
-import com.agkit.util.MyBlogUtils;
 import com.agkit.util.Result;
 import com.agkit.util.ResultGenerator;
 import com.google.gson.JsonObject;
@@ -17,14 +16,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
 
 
 @Controller
@@ -36,7 +30,7 @@ public class UploadController {
     @ResponseBody
     public Result upload(HttpServletRequest httpServletRequest, @RequestParam("file") MultipartFile file) throws URISyntaxException {
         String fileName = file.getOriginalFilename();
-        String suffixName = fileName.substring(fileName.lastIndexOf("."));
+        /*String suffixName = fileName.substring(fileName.lastIndexOf("."));
         String callbackfile = httpServletRequest.getParameter("callbackfile");//客户端请求参数
         //生成文件名称通用方法
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -56,9 +50,11 @@ public class UploadController {
             file.transferTo(destFile);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
+        String[] paths = FileUtil.getSavePathByRequest(httpServletRequest);
+        JsonObject json = FileUtil.saveImage(file, paths);
         Result result = ResultGenerator.genSuccessResult();
-        result.setData(MyBlogUtils.getHost(new URI(httpServletRequest.getRequestURL() + "")) + "/" + AgkitConfig.getPathFix() + "/" + newFileName);
+        result.setData(AgkitConfig.getWebPath()+json.get("url").getAsString());
         return result;
     }
 
@@ -67,7 +63,7 @@ public class UploadController {
                                      HttpServletResponse response,
                                      @RequestParam(name = "callback") String callback,
                                      @RequestParam(name = "editormd-image-file", required = true) MultipartFile file) throws IOException, URISyntaxException {
-        String fileName = file.getOriginalFilename();
+       /* String fileName = file.getOriginalFilename();
         String suffixName = fileName.substring(fileName.lastIndexOf("."));
         //生成文件名称通用方法
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -88,12 +84,14 @@ public class UploadController {
             file.transferTo(destFile);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         try {
+            String[] paths = FileUtil.getSavePathByRequest(request);
+            JsonObject json = FileUtil.saveImage(file, paths);
             request.setCharacterEncoding("utf-8");
             response.setHeader("Content-Type", "text/html");
             //String repStr="{\"success\": 1, \"message\":\"success\",\"url\":\"" + fileUrl + "\"}";
-            String repStr=callback+"?success=1&message=success&fileUrl="+fileUrl;
+            String repStr=callback+"?success=1&message=success&fileUrl="+AgkitConfig.getWebPath()+json.get("url").getAsString();
             response.getWriter().write(repStr);
             response.sendRedirect(repStr);
         } catch (UnsupportedEncodingException e) {

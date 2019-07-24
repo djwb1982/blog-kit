@@ -31,6 +31,21 @@
         <lombok.version>1.16.20</lombok.version>
     </properties>
 
+     	<distributionManagement>
+        <repository>
+            <id>p2p-releases</id>
+            <url>
+                http://localhost:8081/nexus/content/repositories/p2p_releases/
+            </url>
+        </repository>
+        <snapshotRepository>
+            <id>p2p-snapshots</id>
+            <url>
+                http://localhost:8081/nexus/content/repositories/p2p-snapshots/
+            </url>
+        </snapshotRepository>
+ 	</distributionManagement>
+
     <profiles>
         <profile>
             <!-- 生产环境 -->
@@ -38,6 +53,7 @@
             <properties>
                 <profiles.active>prod</profiles.active>
             </properties>
+
         </profile>
         <profile>
             <!-- 本地开发环境 -->

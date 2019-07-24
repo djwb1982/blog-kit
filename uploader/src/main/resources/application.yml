@@ -1,3 +1,5 @@
 spring:
   profiles:
     active: @profiles.active@
+  resources:
+    static-locations: classpath:/resources/uploader/,classpath:/static/,classpath:/WEB-INF/uploader/

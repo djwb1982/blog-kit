@@ -1,3 +1,5 @@
 .idea/
 *.iml
 /uploader/src/main/webapp/uploader
+application-prod.yml
+**/**/crossdomain.xml

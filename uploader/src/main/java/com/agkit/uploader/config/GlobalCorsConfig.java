@@ -17,7 +17,7 @@ public class GlobalCorsConfig {
         //1. 添加 CORS配置信息
         CorsConfiguration config = new CorsConfiguration();
         //放行哪些原始域
-        config.addAllowedOrigin(agkitConfig.getAllowUrl());
+        config.addAllowedOrigin(AgkitConfig.getAllowUrl());
         //是否发送 Cookie
         config.setAllowCredentials(true);
         //放行哪些请求方式
